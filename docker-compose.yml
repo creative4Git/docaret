@@ -1,0 +1,22 @@
+version: '3'
+services:
+  appseed-app:
+    restart: always
+    env_file: .env
+    build: .
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./app/docaret.sqlite3:/app/docaret.sqlite3
+      - ./authentication/auth.sqlite3:/authentication/auth.sqlite3
+  nginx:
+    restart: always
+    image: "nginx:latest"
+    ports:
+      - "85:85"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on: 
+      - appseed-app
+
+ 
